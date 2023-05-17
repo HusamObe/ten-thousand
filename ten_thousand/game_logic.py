@@ -56,6 +56,9 @@ class GameLogic:
             elif number == 5:
                 score += count * 50
 
+            if len(set(roll)) == 3 and all(roll.count(dice) == 2 for dice in set(roll)):
+                score = 1500
+
             if sorted(roll) == [1, 2, 3, 4, 5, 6]:  # Straight 1-6
                 score = 1500
             elif count == 4:  # Four of a kind
@@ -66,6 +69,8 @@ class GameLogic:
                 score = 800
             elif roll == (1, 1, 1, 1, 1, 1):  # Six ones
                 score = 4000
+            elif roll == (1, 1, 1, 1):
+                score = 2000
             elif roll == (2, 2, 2, 2):  # four of a kind of 2s
                 score = 400
             elif roll == (3, 3, 3, 3):  # four of a kind of 3s
@@ -76,6 +81,8 @@ class GameLogic:
                 score = 1000
             elif roll == (6, 6, 6, 6):  # four of a kind of 6s
                 score = 1200
+            elif roll == (1, 1, 1, 1, 1):
+                score = 3000
             elif roll == (2, 2, 2, 2, 2):  # five of a kind of 2s
                 score = 600
             elif roll == (3, 3, 3, 3, 3):  # five of a kind of 3s
