@@ -17,10 +17,13 @@ class play(GameLogic):
             print(f"Starting round {round_num}")
             round_score = 0
             num_dice = 6
+            cheater = False  # Initialize cheater status to False
 
             while True:
-                print(f"Rolling {num_dice} dice...")
-                dice = self.roll_dice(num_dice)
+                if not cheater:
+                    print(f"Rolling {num_dice} dice...")
+                    dice = self.roll_dice(num_dice)
+
                 print("***", " ".join(str(d) for d in dice), "***")
 
                 keep = input("Enter dice to keep, or (q)uit:\n> ")
@@ -32,7 +35,10 @@ class play(GameLogic):
                 try:
                     keep_values = [int(value) for value in keep.split()]
                     keep_dice = tuple(die for die in dice if die in keep_values)
+                    if len(keep_values) != len(keep_dice):
+                        raise ValueError("Cheater!!! Invalid input")
 
+                    cheater = False  # Reset cheater status if input is valid
                     round_score += self.calculate_score(keep_dice)
                     num_dice -= len(keep_dice)
 
@@ -57,9 +63,21 @@ class play(GameLogic):
                     elif choice.lower() == "q":
                         print(f"Thanks for playing. You earned {total_score} points")
                         return
+                    # Check for "Zilch"
+                    elif self.calculate_score(dice) == 0:
+                        print("*" * 40)
+                        print("**        Zilch!!! Round over         **")
+                        print("*" * 40)
+                        print(f"You banked 0 points in round {round_num}")
+                        print(f"Total score is {total_score} points")
+                        round_num += 1
+                        break
 
-                except ValueError:
-                    print("Invalid input. Please try again.")
+                except ValueError as e:
+                    print(str(e))
+                    cheater = True  # Set cheater status to True
+
+                
 
 
 if __name__ == "__main__":
