@@ -1,7 +1,8 @@
-from ten_thousand.game_logic import GameLogic
-
-
-#
+try:
+    from ten_thousand.game_logic import GameLogic
+except:
+        from game_logic import GameLogic
+        
 class Game(GameLogic):
     def play(self):
         print("Welcome to Ten Thousand")
